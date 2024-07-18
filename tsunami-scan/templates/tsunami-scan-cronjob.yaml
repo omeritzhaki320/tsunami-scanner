@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: tsunami-scan
+spec:
+  schedule: "{{ .Values.schedule }}"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: tsunami-scan
+            image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+            env:
+            - name: SLACK_WEBHOOK_URL
+              value: "{{ .Values.slackWebhookUrl }}"
+            - name: MINIO_ENDPOINT
+              value: "{{ .Values.minio.endpoint }}"
+            - name: MINIO_BUCKET
+              value: "{{ .Values.minio.bucket }}"
+            - name: MINIO_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: tsunami-secrets
+                  key: minio-access-key
+            - name: MINIO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: tsunami-secrets
+                  key: minio-secret-key
+            volumeMounts:
+            - name: server-list-volume
+              mountPath: /config
+              subPath: servers.yaml
+          restartPolicy: OnFailure
+          volumes:
+          - name: server-list-volume
+            configMap:
+              name: server-list

@@ -1,0 +1,5 @@
+apiVersion: v2
+name: tsunami-scan-and-notify
+description: A Helm chart for deploying the Tsunami scanner cron job
+version: 0.1.0
+appVersion: 1.0.0
