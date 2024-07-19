@@ -14,7 +14,7 @@ This repository contains the necessary files to deploy a Tsunami network scanner
 
 1. **Clone the Repository:**
    ```sh
-   git clone https://github.com/your-repo/tsunami-scanner.git
+   git clone https://github.com/omeritzhaki320/tsunami-scanner.git
    cd tsunami-scanner
    ```
 
